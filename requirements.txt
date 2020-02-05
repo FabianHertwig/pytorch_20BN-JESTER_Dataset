@@ -1,0 +1,6 @@
+torch
+torchvision
+
+# For Testing
+numpy
+pillow
