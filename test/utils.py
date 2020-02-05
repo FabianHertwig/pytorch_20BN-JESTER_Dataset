@@ -7,22 +7,27 @@ from PIL import Image
 
 class TestDataSet:
 
-    def __init__(self, path: Union[str, Path], number_of_videos: (int, int, int), min_length: int, max_length: int, overwrite=False,
-                        labels=["Swipe Right", "Swipe Left", "Do Nothing"]) -> None:
-
+    def __init__(self, path: Union[str, Path], number_of_videos: (int, int, int), min_length: int, max_length: int,
+                 overwrite=False, labels=["Swipe Right", "Swipe Left", "Do Nothing"]) -> None:
         self.test_data_path = Path(path)
-        test_data_video_path = self._create_directories(overwrite)
+        self.test_data_video_path = self._create_directories(overwrite)
+        self.number_of_videos = number_of_videos
+        self.min_length = min_length
+        self.max_length = max_length
+        self.overwrite = overwrite
+        self.labels = labels
 
-        self._create_labels_files(labels)
+    def create(self):
+        self._create_labels_files(self.labels)
 
         video_number = 0
         for mode_number, mode in enumerate(["train", "test", "validation"]):
             data_file = self.test_data_path / f"jester-v1-{mode}.csv"
-            for _ in range(0, number_of_videos[mode_number]):
+            for _ in range(0, self.number_of_videos[mode_number]):
                 video_number += 1
-                video_dir_path = test_data_video_path / str(video_number)
-                self._create_video(max_length, min_length, video_dir_path)
-                self._append_to_data_file(data_file, labels, mode, video_number)
+                video_dir_path = self.test_data_video_path / str(video_number)
+                self._create_video(self.max_length, self.min_length, video_dir_path)
+                self._append_to_data_file(data_file, self.labels, mode, video_number)
 
     def remove(self):
         self._rm_recursive(self.test_data_path)
@@ -77,4 +82,5 @@ def project_dir() -> Path:
 
 
 if __name__ == '__main__':
-    TestDataSet(project_dir() / "test_data", (10, 3, 3), 2, 5, True)
+    testDataset = TestDataSet(project_dir() / "test_data", (10, 3, 3), 2, 5, True)
+    testDataset.create()
