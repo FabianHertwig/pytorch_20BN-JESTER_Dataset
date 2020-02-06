@@ -4,7 +4,9 @@ from torch.utils.data.dataloader import DataLoader
 from torchvision.transforms import transforms
 
 from test.utils import TestDataSet, project_dir
-from src.jester_dataset import JesterDataset
+from jesterdataset import JesterDataset
+
+from torch_videovision.videotransforms.volume_transforms import ClipToTensor
 
 
 class TestJesterDataset(TestCase):
@@ -22,7 +24,7 @@ class TestJesterDataset(TestCase):
         self.testDataset.remove()
 
     def test_JesterDataset(self):
-        dataset = JesterDataset(self.data_dir / "jester-v1-train.csv", self.data_dir, transform=transforms.ToTensor())
+        dataset = JesterDataset(self.data_dir / "jester-v1-train.csv", self.data_dir, video_transform=None)
         self.assertEqual(len(dataset), self.train_test_validation_size[0])
         for frames, label in dataset:
             self.assertGreaterEqual(len(frames), self.min_number_of_frames)
@@ -30,7 +32,8 @@ class TestJesterDataset(TestCase):
             self.assertIn(label, self.testDataset.labels)
 
     def test_JesterDataset_with_dataloader(self):
-        dataset = JesterDataset(self.data_dir / "jester-v1-train.csv", self.data_dir, transform=transforms.ToTensor())
+
+        dataset = JesterDataset(self.data_dir / "jester-v1-train.csv", self.data_dir, video_transform=ClipToTensor())
 
         dataloader = DataLoader(dataset, batch_size=4,
                                 shuffle=True, num_workers=4)
