@@ -8,7 +8,7 @@ Install this package
 
     pip install git+https://github.com/FabianHertwig/pytorch_20BN-JESTER_Dataset
     
-You will also need the video_transforms form this repo:
+You will also need the video_transforms from this repo:
 
     pip install git+https://github.com/hassony2/torch_videovision
 
