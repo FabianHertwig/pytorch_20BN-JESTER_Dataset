@@ -34,6 +34,17 @@ class JesterDataset(Dataset):
             video_transform:  Videotransforms to apply to the frames. You can not use the usual torchvision.transforms
                 as the same transform must be applied to all the frames of one video.
                 Checkout https://github.com/hassony2/torch_videovision for video compatible transforms.
+
+        Example:
+            from jesterdataset import JesterDataset
+            from torch_videovision.videotransforms.volume_transforms import ClipToTensor
+
+            dataset = JesterDataset("./jester_data/jester-v1-train.csv", "./jester_data/20bn-jester-v1",
+                                    video_transform=ClipToTensor())
+            dataloader = DataLoader(dataset, batch_size=4, shuffle=True, num_workers=4)
+
+            for i_batch, sample_batched in enumerate(dataloader):
+                self.assertLessEqual(len(sample_batched), 4)
         """
         self.file_ending = frame_file_ending
         self.video_dir = video_dir

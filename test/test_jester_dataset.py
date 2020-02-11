@@ -24,8 +24,7 @@ class TestJesterDataset(TestCase):
 
     @classmethod
     def tearDownClass(cls) -> None:
-        # cls.testDataset.remove()
-        pass
+        cls.testDataset.remove()
 
     def test_JesterDataset_without_padding(self):
         number_of_frames = 10

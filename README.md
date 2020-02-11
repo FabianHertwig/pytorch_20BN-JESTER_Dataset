@@ -10,15 +10,15 @@ Install this package
     
 You will also need the video_transforms form this repo:
 
-    pip install git+https://github.com/FabianHertwig/torch_videovision
+    pip install git+https://github.com/hassony2/torch_videovision
 
 Code Example:
 
     from jesterdataset import JesterDataset
     from torch_videovision.videotransforms.volume_transforms import ClipToTensor
     
-    dataset = JesterDataset(self.data_dir / "jester-v1-train.csv", self.data_dir, video_transform=ClipToTensor())
-
+    dataset = JesterDataset("./jester_data/jester-v1-train.csv", "./jester_data/20bn-jester-v1", 
+                            video_transform=ClipToTensor())
     dataloader = DataLoader(dataset, batch_size=4, shuffle=True, num_workers=4)
 
     for i_batch, sample_batched in enumerate(dataloader):
