@@ -1,6 +1,6 @@
 from unittest import TestCase
 from torch.utils.data.dataloader import DataLoader
-from torch_videovision.videotransforms.volume_transforms import ClipToTensor
+from torchvideotransforms.volume_transforms import ClipToTensor
 
 from test.utils import TestDataSet, project_dir
 from jesterdataset import JesterDataset
@@ -91,8 +91,16 @@ class TestJesterDataset(TestCase):
 
         dataset = JesterDataset(self.train_csv_file, self.video_dir, video_transform=ClipToTensor())
 
-        dataloader = DataLoader(dataset, batch_size=4,
-                                shuffle=True, num_workers=4)
+        preferred_batch_size = 4
+        dataloader = DataLoader(dataset, batch_size=preferred_batch_size,
+                                shuffle=True, num_workers=1)
 
+        batch_sizes = []
         for i_batch, sample_batched in enumerate(dataloader):
-            self.assertLessEqual(len(sample_batched), 4)
+            batch, label = sample_batched
+            actual_batch_size = len(batch)
+            batch_sizes.append(actual_batch_size)
+            self.assertLessEqual(actual_batch_size, preferred_batch_size)
+
+        number_of_batches_with_batch_size = batch_sizes.count(preferred_batch_size)
+        self.assertGreaterEqual(number_of_batches_with_batch_size, 1)

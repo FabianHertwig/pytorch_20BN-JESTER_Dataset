@@ -4,4 +4,4 @@ torchvision
 # For Testing
 numpy
 pillow
-git+https://github.com/FabianHertwig/torch_videovision
+git+https://github.com/hassony2/torch_videovision
