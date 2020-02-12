@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="jesterdataset",
-    version="0.0.1",
+    version="0.0.2",
     author="Fabian Hertwig",
     author_email="fabian.hertwig@gmail.com",
     description="A Pytorch Dataset to load the 20BN-JESTER hand gesture dataset or datasets that have the same format.",
